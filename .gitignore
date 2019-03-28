@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+
+# configuration jetbrain files
+.idea
+.idea/*
