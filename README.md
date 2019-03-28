@@ -29,3 +29,12 @@ Run with following command:
 ./a.out
 (2015-01-08 13:37:43) [INFO    ] Crow/0.1 server is running, local port 8080
 ```
+
+
+# Docker
+```
+docker build -t crow .
+
+docker run -ti -p 8084:8084 --rm --network="host" --cpus=3 --name="crow" crow bash start.sh
+
+```
