@@ -17,7 +17,8 @@ Use your package manager to install boost and don't forget to linking to boost-t
 
 Compile and run with following command:
 
-```g++ -O3 -std=c++11 main.cpp -lboost_thread -lboost_system -pthread
+```sh
+g++ -O3 -std=c++11 main.cpp -lboost_thread -lboost_system -pthread
 
 g++ -O3 -std=c++11 main.cpp -lboost_thread_mt -lboost_system_mt -pthread # if linker cannot find boost_system, try this
 ```
