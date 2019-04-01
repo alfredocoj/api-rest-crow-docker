@@ -38,3 +38,14 @@ docker build -t crow .
 docker run -ti -p 8084:8084 --rm --network="host" --cpus=3 --name="crow" crow bash start.sh
 
 ```
+
+# Links Importantes:
+
+[link1](https://dev.mysql.com/doc/connector-cpp/1.1/en/connector-cpp-examples-prepared-statements.html)
+[link2](https://www.codesynthesis.com/products/odb/)
+[link3](https://dev.mysql.com/doc/connector-cpp/1.1/en/connector-cpp-tutorials-background.html)
+[link4](https://dev.mysql.com/doc/connector-cpp/1.1/en/connector-cpp-examples-complete-example-2.html)
+[link5](https://dev.mysql.com/doc/connector-cpp/8.0/en/connector-cpp-apps-make.html)
+[link6 - Doc oficial](https://github.com/ipkn/crow)
+[link7 -exemplo web](https://github.com/ipkn/crow/wiki/Quickstart)
+[link8](https://devhub.io/repos/chansuke-crow)
