@@ -32,7 +32,6 @@ int main(int argc, const char **argv) {
                     sql::Driver *driver;
                     sql::Connection *con;
                     sql::Statement *stmt;
-                    sql::PreparedStatement *pstmt;
                     sql::ResultSet *res;
 
                     /* Create a connection */
@@ -41,26 +40,18 @@ int main(int argc, const char **argv) {
                     /* Connect to the MySQL test database */
                     con->setSchema("festa");
 
-                    pstmt = con->prepareStatement("INSERT INTO convidado(numero_convidado) VALUES (?)");
-                    /* '?' is the supported placeholder syntax */
-                    for (int i = 1; i <= 10; i++) {
-                        pstmt->setInt(1, i);
-                        pstmt->executeUpdate();
-                    }
-
                     stmt = con->createStatement();
                     res = stmt->executeQuery("SELECT * from convidado");
-                    while (res->next()) {
-                        cout << "\t... MySQL replies: ";
-                         //Access column data by alias or column name
-                        cout << res->getString("nome") << endl;
-                        cout << "\t... MySQL says it again: ";
-                         //Access column data by numeric offset, 1 is the first column
-                        cout << res->getString(1) << endl;
-                    }
+//                    while (res->next()) {
+//                        cout << "\t... MySQL replies: ";
+//                        //Access column data by alias or column name
+//                        cout << res->getString("nome") << endl;
+//                        cout << "\t... MySQL says it again: ";
+//                        //Access column data by numeric offset, 1 is the first column
+//                        cout << res->getString(1) << endl;
+//                    }
 
                     delete res;
-                    delete pstmt;
                     delete stmt;
                     delete con;
                     return "Hello, world!";
@@ -75,6 +66,58 @@ int main(int argc, const char **argv) {
 
 
             });
+
+    CROW_ROUTE(app, "/convidados")
+            .methods("POST"_method)
+                    ([] {
+                        sql::Driver *driver;
+                        sql::Connection *con;
+                        sql::Statement *stmt;
+                        sql::PreparedStatement *pstmt;
+                        sql::ResultSet *res;
+
+                        /* Create a connection */
+                        driver = get_driver_instance();
+                        con = driver->connect("tcp://127.0.0.1:3306", "root", "1234");
+                        /* Connect to the MySQL test database */
+                        con->setSchema("festa");
+
+                        pstmt = con->prepareStatement("INSERT INTO convidado(nome, numero_convidado) VALUES (?, ?)");
+                        pstmt->setString(1, "Sarah");
+                        pstmt->setInt(2, 4);
+                        pstmt->executeQuery();
+                        /* '?' is the supported placeholder syntax */
+//                for (int i = 1; i <= 10; i++) {
+//                    pstmt->setInt(1, i);
+//                    pstmt->executeUpdate();
+//                }
+
+                        stmt = con->createStatement();
+                        res = stmt->executeQuery("SELECT * from convidado");
+//                        while (res->next()) {
+//                            cout << "\t... MySQL replies: ";
+//                            //Access column data by alias or column name
+//                            cout << res->getString("nome") << endl;
+//                            cout << "\t... MySQL says it again: ";
+//                            //Access column data by numeric offset, 1 is the first column
+//                            cout << res->getString(1) << endl;
+//                        }
+
+                        crow::json::wvalue data;
+
+                        data["nome"] = "Sarah";
+                        data["numero_convidado"] = 3;
+
+                        delete pstmt;
+                        delete stmt;
+                        delete con;
+                        delete res;
+
+
+                        return crow::response(201, data);
+
+                    });
+
 
     app
             .port(8084)
